@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+    app:
+        image: clojure:latest
+        working_dir: /usr/src/app
+        volumes: 
+            - .:/usr/src/app
+        ports: 
+            - "7888:7888"
+        command: lein repl :headless :host 0.0.0.0 :port 7888
