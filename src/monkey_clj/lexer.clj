@@ -14,8 +14,13 @@
   (<= (int \0) (int c) (int \9)))
 
 (def char->token-type
-  {\= ::token/assign
-   \+ ::token/plus
+  {\+ ::token/plus
+   \- ::token/minus
+   \! ::token/bang
+   \* ::token/asterisk
+   \/ ::token/slash
+   \< ::token/lt
+   \> ::token/gt
    \( ::token/lparen
    \) ::token/rparen
    \{ ::token/lbrace
@@ -24,8 +29,16 @@
    \; ::token/semicolon})
 
 (defn- default-token [[c & rest]]
-  (if-let [type (char->token-type c)]
-    [type (str c) rest]))
+  (condp = c
+    \= (if (= (first rest) \=)
+         [::token/eq "==" (drop 1 rest)]
+         [::token/assign "=" rest])
+    \! (if (= (first rest) \=)
+         [::token/not-eq "!=" (drop 1 rest)]
+         [::token/bang "!" rest])
+    (if-let [type (char->token-type c)]
+      [type (str c) rest]
+      false)))
 
 (defn int-token [[c & rest]]
   (when (number? c)
