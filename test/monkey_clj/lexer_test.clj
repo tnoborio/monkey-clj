@@ -57,6 +57,8 @@
                     [::token/comma ","]
                     [::token/ident "ten"]
                     [::token/rparen  ")"]
-                    [::token/semicolon ";"]])]
+                    [::token/semicolon ";"]
+
+                    [::token/eof ""]])]
         (is (= (.type token) expected-type))
         (is (= (.literal token) expected-literal))))))

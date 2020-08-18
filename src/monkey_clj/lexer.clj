@@ -54,7 +54,7 @@
                 (int-token input)
                 (illegal-token　input))]
         (cons (->Token type literal) (-parse rest)))
-      [])))
+      [(->Token ::token/eof "")])))
 
 (defmethod -parse String [input]
   (-parse (char-array input)))
@@ -67,5 +67,5 @@
   (parse [_]
     (-parse input)))
 
-(map str (parse (->Lexer " =+(){},;")))
+
 
